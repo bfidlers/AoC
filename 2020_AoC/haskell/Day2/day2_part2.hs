@@ -1,6 +1,6 @@
 main :: IO ()
 main = do input <- readFile "input.txt"
-          print . length . checkInput . parseInput. words' . lines $ input
+          print . length . checkInput . parseInput $ input
                
 words' :: [String] -> [[String]]
 words' [] = []
@@ -16,9 +16,8 @@ splitBy seperator (x:xs)
 seperateInt :: String -> Char -> (Int, Int)
 seperateInt x seperator = (\ (a:b:c) -> (a,b)) . map (\ x -> read x :: Int) $ (splitBy seperator x)
 
-parseInput :: [[String]] -> [Input]
-parseInput [] = []
-parseInput (x:xs) = parseLine x : parseInput xs
+parseInput :: String -> [Input]
+parseInput = map (parseLine . words) . lines
 
 parseLine :: [String] -> Input
 parseLine (x:y:ys) = Input (fst seperatedInt) (snd seperatedInt) (head y) (getCharOnPos (fst seperatedInt) (head ys)) (getCharOnPos (snd seperatedInt) (head ys)) (head ys)

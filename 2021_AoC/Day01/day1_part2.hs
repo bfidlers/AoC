@@ -2,7 +2,7 @@ import Data.List
 
 main :: IO ()
 main = do input <- readFile "input.txt"
-          print . count . merge . (map (\ x -> read x :: Int)) . words $ input
+          print . count . merge . map read . words $ input
 
 merge :: [Int] -> [Int]
 merge list

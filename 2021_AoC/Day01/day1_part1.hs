@@ -2,7 +2,7 @@ import Data.List
 
 main :: IO ()
 main = do input <- readFile "input.txt"
-          print . count . (map (\ x -> read x :: Int)) . words $ input
+          print . count . map read . words $ input
 
 count :: [Int] -> Int
 count (x:xs) = f x xs

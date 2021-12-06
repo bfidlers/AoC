@@ -3,14 +3,10 @@ import Data.List.Split
 
 main :: IO ()
 main = do input <- readFile "input.txt"
-          print . nb_fish . f cycles . parse $ input
+          print . nb_fish . (!!cycles) . iterate cycle' . parse $ input
 
 nb_fish :: [(Int,Int)] -> Int
 nb_fish = sum . map snd
-
-f :: Int -> [(Int,Int)] -> [(Int,Int)]
-f 0 input = input
-f nb input = f (nb-1) (cycle' input)
 
 cycle' :: [(Int,Int)] -> [(Int,Int)]
 cycle' [] = []

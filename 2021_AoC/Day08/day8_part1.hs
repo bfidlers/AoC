@@ -3,8 +3,6 @@ import Data.List.Split
 
 main :: IO ()
 main = do input <- readFile "input.txt"
-          print . parse $ input
-          print . f . parse $ input
           print . sum . f . parse $ input
 
 simple :: [Int]

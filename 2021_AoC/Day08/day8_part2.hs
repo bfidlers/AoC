@@ -1,3 +1,5 @@
+{-# LANGUAGE MultiWayIf #-}
+
 import Data.List
 import Data.List.Split
 import Data.Char
@@ -23,16 +25,14 @@ translate l dec
     | len == 2 = H.insert 1 l dec
     | len == 3 = H.insert 7 l dec
     | len == 4 = H.insert 4 l dec
-    | len == 5 = if sublist (fromJust (H.lookup 1 dec)) l 
-                     then H.insert 3 l dec
-                 else if common l (fromJust (H.lookup 4 dec)) == 3
-                     then H.insert 5 l dec
-                 else H.insert 2 l dec
-    | len == 6 = if sublist (fromJust (H.lookup 3 dec)) l
-                     then H.insert 9 l dec
-                 else if sublist (fromJust (H.lookup 5 dec)) l
-                     then H.insert 6 l dec
-                 else H.insert 0 l dec
+    | len == 5 = if 
+        | sublist (fromJust (H.lookup 1 dec)) l     -> H.insert 3 l dec
+        | common l (fromJust (H.lookup 4 dec)) == 3 -> H.insert 5 l dec
+        | otherwise                                 -> H.insert 2 l dec
+    | len == 6 = if
+        | sublist (fromJust (H.lookup 3 dec)) l     -> H.insert 9 l dec
+        | sublist (fromJust (H.lookup 5 dec)) l     -> H.insert 6 l dec
+        | otherwise                                 -> H.insert 0 l dec
     | len == 7 = H.insert 8 l dec
     where len = length l
 

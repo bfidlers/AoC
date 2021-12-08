@@ -7,33 +7,19 @@ import Data.Maybe
 
 main :: IO ()
 main = do input <- readFile "input.txt"
-          print . parse $ input
-          print . f . parse $ input
           print . sum . f . parse $ input
 
 f :: [([String], [String])] -> [Int]
-f [] = []
-f ((input,output):xs) = (decode2 key output) : f xs
-    where key = crack input
+f = map (\(a,b) -> decode (crack a) b)
 
 crack :: [String] -> [(Int, String)]
 crack input = H.toList (translateAll sorted H.empty)
-    where sorted = sortBy (compare `on` length) $ input
+    where translateAll :: [String] -> H.Map Int String -> H.Map Int String
+          translateAll l dec = foldl (\a b -> translate b a) dec l
+          sorted = sortBy (compare `on` length) $ input
 
---translate :: String -> [(Char, String)] -> [(Char, String)]
---translate l dec
---    | len == 2 = match [('c',l),('f',l)] dec
---    | len == 3 = [('a',l),('c',l),('f',l)]
---    | len == 4 = [('b',l),('c',l),('d',l),('f',l)]
---   | otherwise = []
---    where len = length l
-
-translateAll :: [String] -> H.Map Int String -> H.Map Int String
-translateAll [] dec = dec
-translateAll (x:xs) dec = translateAll xs (translate2 x dec)
-
-translate2 :: String -> H.Map Int String -> H.Map Int String
-translate2 l dec 
+translate :: String -> H.Map Int String -> H.Map Int String
+translate l dec 
     | len == 2 = H.insert 1 l dec
     | len == 3 = H.insert 7 l dec
     | len == 4 = H.insert 4 l dec
@@ -56,26 +42,13 @@ sublist a b = length (intersect a b) == length a
 common :: Eq a => [a] -> [a] -> Int
 common a b = length (intersect a b)
 
---match :: [(Char, String)] -> [(Char, String)] -> [(Char, String)]
---match dec [] = dec
---match [] dec = dec
---match (x:xs) dec = 
---    where match' (
-
-decode :: String -> [(Char, Char)] -> Int
-decode input dec = read . concat . map g $ input
-    where g = show . (\x -> toInt . snd $ (dec!!(toInt x)))
-
-decode2 :: [(Int, String)] -> [String] -> Int
-decode2 dec input = read . concat . map (show . (\x -> findDigit x dec)) $ input
+decode :: [(Int, String)] -> [String] -> Int
+decode dec input = read . concat . map (show . (\x -> findDigit x dec)) $ input
 
 findDigit :: String -> [(Int, String)] -> Int
 findDigit s ((a,b):xs)
     | sort s == sort b = a
     | otherwise = findDigit s xs
-
-toInt :: Char -> Int
-toInt c = ord c - ord 'a' 
 
 parse :: String -> [([String], [String])] 
 parse = map ((\l -> (l!!0, l!!1)) . map words . splitOn (" | ")) . lines 

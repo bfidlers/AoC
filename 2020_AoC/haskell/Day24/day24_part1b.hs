@@ -1,36 +1,29 @@
 import Data.List
 
-main = do input <- readFile "test.txt"
-          print . group . sort . map (simplifyPath . makePath . parse) . lines $ input
+main = do input <- readFile "input.txt"
+--          print . f . parse $ input
+          print . length . f . parse $ input
 
-parse :: String -> [String]
-parse [] = []
-parse (x:xs) 
-    | x == 'e' || x == 'w' = [x] : parse xs
-    | otherwise = (\ (a:as) -> [x:a] ++ as) (parse xs)
+f :: [Coord] -> [Coord]
+f = map head . filter (\x -> odd (length x)) . group . sort
 
-data Path = Path Int -- e
-                 Int -- ne
-                 Int -- se
-    deriving (Eq, Ord, Show) 
+type Coord = (Int,Int) -- (n,e)
 
-makePath :: [String] -> Path
-makePath [] = Path 0 0 0
+makePath :: [String] -> Coord
+makePath [] = (0,0)
 makePath (x:xs)
-    | x == "e" = (\ (Path a b c) -> (Path (a+1) b c)) (makePath xs)
-    | x == "w" = (\ (Path a b c) -> (Path (a-1) b c)) (makePath xs)
-    | x == "ne" = (\ (Path a b c) -> (Path a (b+1) c)) (makePath xs)
-    | x == "sw" = (\ (Path a b c) -> (Path a (b-1) c)) (makePath xs)
-    | x == "se" = (\ (Path a b c) -> (Path a b (c+1))) (makePath xs)
-    | x == "nw" = (\ (Path a b c) -> (Path a b (c-1))) (makePath xs)
+    | x == "e" =  (\(n,e) -> (n,e+2)) (makePath xs)
+    | x == "w" =  (\(n,e) -> (n,e-2)) (makePath xs)
+    | x == "ne" = (\(n,e) -> (n+1,e+1)) (makePath xs)
+    | x == "sw" = (\(n,e) -> (n-1,e-1)) (makePath xs)
+    | x == "se" = (\(n,e) -> (n-1,e+1)) (makePath xs)
+    | x == "nw" = (\(n,e) -> (n+1,e-1)) (makePath xs)
 
-simplifyPath :: Path -> Path 
-simplifyPath (Path e ne se) = Path e2 ne2 se2 
-    where e2 = e + min
-          ne2 = ne - min
-          se2 = se - min 
-          min = if ne > 0 && se > 0 
-                    then minimum [ne, se]
-                else if ne < 0 && se < 0 
-                    then maximum [ne, se]
-                else 0
+parse :: String -> [Coord]
+parse = map (makePath . parseChar) . lines
+
+parseChar :: String -> [String]
+parseChar [] = []
+parseChar (x:xs)
+    | x == 'e' || x == 'w' = [x] : parseChar xs
+    | otherwise = (x:[head xs]) : parseChar (tail xs)

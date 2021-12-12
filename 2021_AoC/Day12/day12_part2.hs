@@ -31,10 +31,8 @@ exception x l
     | otherwise = not . elem x $ l
 
 poss :: [String] -> Bool
-poss input
-    | null filtered = False
-    | otherwise = all (\x -> length x < 2) . group . sort $ filtered
-    where filtered = filter (smallCave) input
+poss input = (length . nub $ small) == length small
+    where small = filter (smallCave) input
 
 smallCave :: String -> Bool
 smallCave (x:_) = isLower x

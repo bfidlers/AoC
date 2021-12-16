@@ -4,8 +4,6 @@ import Data.List.Split
 
 main :: IO ()
 main = do input <- readFile "input.txt"
-          print . parse $ input
-          print . f . parse $ input
           print . sumVersion . f . parse $ input
 
 -- types 

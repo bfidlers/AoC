@@ -4,8 +4,6 @@ import Data.List.Split
 
 main :: IO ()
 main = do input <- readFile "input.txt"
-          print . parse $ input
-          print . f . parse $ input
           print . evaluate . f . parse $ input
 
 -- types 
@@ -26,10 +24,6 @@ evaluate (Op _ nb p)
     | nb == 5 = (\[x,y] -> if x > y then 1 else 0) . map evaluate $ p
     | nb == 6 = (\[x,y] -> if x < y then 1 else 0) . map evaluate $ p
     | nb == 7 = (\[x,y] -> if x == y then 1 else 0) . map evaluate $ p
-
-sumVersion :: Package -> Int
-sumVersion (Lit v _ _) = v
-sumVersion (Op v _ p)  = v + (sum . map sumVersion $ p)
 
 f :: String -> Package
 f input = fst . parsePackage $ input

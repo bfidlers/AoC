@@ -5,12 +5,7 @@ import Data.Ord
 
 main :: IO ()
 main = do input <- readFile "input.txt"
-          print . parse $ input
           print . f . parse $ input
-          print . answer (parse input) . f . parse $ input
-
-answer :: [[Int]] -> [Point] -> Int
-answer input pos = sum [get p input | p <- pos] 
 
 start :: (Int,Int)
 start = (0,0)
@@ -18,15 +13,15 @@ start = (0,0)
 end :: [[Int]] -> Point
 end l = (length l, length . head $ l)
 
---f :: [[Int]] -> [Point]
---f l = unvisited 
-f l = path start (w-1,h-1) nodes 
+f :: [[Int]] -> Int
+f l = sum [get pos l | pos <- p]
     where visited = []
           unvisited = begin : map (\p -> (N p (get p l) 10000000000 p)) is 
           (i:is) = [(x,y) | x <- [0..w-1], y <- [0..h-1]]
           begin = N start 0 0 start
           (w,h) = end l
           nodes = expand unvisited visited (w-1,h-1)
+          p = path start (w-1,h-1) nodes
 
 data Node = N Point Int Int Point
     deriving Show

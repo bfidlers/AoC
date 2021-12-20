@@ -19,13 +19,12 @@ answer = M.size . M.filter (== '#')
 f :: (String,Image) -> Image
 f (alg,img) = (\(a,b,c) -> b) . (!!2) . iterate step $ (alg,img,'.')
 
--- default character added because first character in input is # instead of . in the test file, this way we alternate between all external pixels being # . # . and so on, but this kind of breaks the test file. 
 step :: (String,Image,Char) -> (String,Image,Char)
 step (alg,img,def) = (alg,new_image,new_def)
     where eligible  = S.fromList . concat . map neighbours . M.keys $ img 
           new_image = M.fromList . foldr (replace) [] $ eligible 
           replace p l = (p, alg!!(toNumber . readNeigh img def . neighbours $ p)):l
-          new_def = if def == '.' then '#' else '.'
+          new_def = if def == '.' then head alg else last alg
 
 neighbours :: Point -> [Point]
 neighbours (r,c) = [(r+dr,c+dc) | dr <- [-1..1],

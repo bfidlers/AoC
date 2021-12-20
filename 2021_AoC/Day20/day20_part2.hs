@@ -24,7 +24,7 @@ step (alg,img,def) = (alg,new_image,new_def)
     where eligible  = S.fromList . concat . map neighbours . M.keys $ img 
           new_image = M.fromList . foldr (replace) [] $ eligible 
           replace p l = (p, alg!!(toNumber . readNeigh img def . neighbours $ p)):l
-          new_def = if def == '.' then '#' else '.'
+          new_def = if def == '.' then head alg else last alg
 
 neighbours :: Point -> [Point]
 neighbours (r,c) = [(r+dr,c+dc) | dr <- [-1..1],

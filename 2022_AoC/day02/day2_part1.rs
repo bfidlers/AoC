@@ -20,9 +20,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 fn get_score(values: &Vec<char>) -> u32 {
     let frst = values[0].to_digit(36).unwrap() - 'A'.to_digit(36).unwrap() + 1;
     let snd = values[1].to_digit(36).unwrap() - 'X'.to_digit(36).unwrap() + 1;
-    snd + get_match_score(frst, snd)
-}
+    snd + (4 + snd - frst) % 3 * 3
 
-fn get_match_score(frst: u32, snd: u32) -> u32 {
-    (4 + snd - frst) % 3 * 3
 }

@@ -1,3 +1,13 @@
 **/Test
 
+*
+!*.*
+!*/
+
 .DS_Store
+
+# Ignore previous years
+2018_AoC/
+2019_AoC/
+2020_AoC/
+2021_AoC/

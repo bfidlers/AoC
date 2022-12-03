@@ -6,6 +6,12 @@
 
 .DS_Store
 
+# Python
+.venv
+venv/
+__pycache__/
+.idea/
+
 # Ignore previous years
 2018_AoC/
 2019_AoC/

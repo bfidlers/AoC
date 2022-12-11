@@ -5,8 +5,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                                      .collect();
 
     let lcm: u64 = monkeys.iter()
-                          .map(|x| if let Test::Divisible(y,_,_) = x.test {y} 
-                                   else {1})
+                          .map(|x| {let Test::Divisible(y,_,_) = x.test; y})
                           .product();
 
     for _ in 0..10000 {

@@ -18,13 +18,10 @@ map<string, string> m = {
   {"nine", "9"},
 };
 
-int extractNumbers(string str)
-{
+int extractNumbers(string str) {
   vector<char> numbers;
-  for (int i = 0; i < str.length(); i++)
-  {
-    if (isdigit(str[i]))
-    {
+  for (int i = 0; i < str.length(); i++) {
+    if (isdigit(str[i])) {
       numbers.push_back(str[i]);
     }
   }
@@ -32,48 +29,41 @@ int extractNumbers(string str)
   return stoi(result);
 }
 
-bool subString(string &s1, const string &s2)
-{
-  if (s1.length() > s2.length())
+bool subString(string &s1, const string &s2) {
+  if (s1.length() > s2.length()) {
     return false;
-  for (int i = 0; i < s1.length(); i++) 
-  {
-    if (s1[i] != s2[i])
+  }
+  for (int i = 0; i < s1.length(); i++) {
+    if (s1[i] != s2[i]) {
       return false;
+    }
   }
   return true;
 }
 
-bool checkSubStrings(string &s1)
-{
-  for (const auto &myPair : m)
-  {
-    if (subString(s1, myPair.first))
+bool checkSubStrings(string &s1) {
+  for (const auto &myPair : m) {
+    if (subString(s1, myPair.first)) {
       return true;
+    }
   }
   return false;
 }
 
-void replaceNumbers(string &str)
-{
+void replaceNumbers(string &str) {
   string output;
-  for (int i = 0; i < str.length(); i++)
-  {
-    if (i + 1 == str.length())
-    {
+  for (int i = 0; i < str.length(); i++) {
+    if (i + 1 == str.length()) {
       output += str[i];
       break;
     }
     string substring = string() + str[i];
-    for (int j = 1; j <= str.length() - i; j++)
-    {
-      if (m.count(substring) > 0)
-      {
+    for (int j = 1; j <= str.length() - i; j++) {
+      if (m.count(substring) > 0) {
         output += m[substring];
         break;
       }
-      if (!checkSubStrings(substring))
-      {
+      if (!checkSubStrings(substring)) {
         output += str[i];
         break;
       }
@@ -83,16 +73,13 @@ void replaceNumbers(string &str)
   str = output;
 }
 
-int main()
-{
+int main() {
   string line;
   int sum;
 
   ifstream myfile ("input.txt");
-  if (myfile.is_open())
-  {
-    while ( getline (myfile, line))
-    {
+  if (myfile.is_open()) {
+    while ( getline (myfile, line)) {
       replaceNumbers(line);
       int n = extractNumbers(line);
       sum += n;

@@ -6,13 +6,10 @@
 
 using namespace std;
 
-int extractNumbers(string str)
-{
+int extractNumbers(string str) {
   vector<char> numbers;
-  for (int i = 0; i < str.length(); i++)
-  {
-    if (isdigit(str[i]))
-    {
+  for (int i = 0; i < str.length(); i++) {
+    if (isdigit(str[i])) {
       numbers.push_back(str[i]);
     }
   }
@@ -20,16 +17,13 @@ int extractNumbers(string str)
   return stoi(result);
 }
 
-int main()
-{
+int main() {
   string line;
   int sum;
   
   ifstream myfile ("input.txt");
-  if (myfile.is_open())
-  {
-    while ( getline (myfile, line))
-    {
+  if (myfile.is_open()) {
+    while ( getline (myfile, line)) {
       int n = extractNumbers(line);
       sum += n;
     }

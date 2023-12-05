@@ -157,12 +157,7 @@ int main() {
   }
 
   long min = numeric_limits<long>::max();
-  cout << min << endl << endl;
-
   for (range seed: seeds2) {
-    cout << seed.start << endl;
-    cout << seed.length << endl << endl;
-
     vector<range> source = {seed};
     vector<range> dest;
     getLocation(source, dest, input);

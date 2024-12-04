@@ -26,7 +26,6 @@ def tolerate(nbs):
     og_list.pop(i)
     safe_list = safe(og_list, True)
     if safe_list:
-      print(og_list)
       return True
   return False
 

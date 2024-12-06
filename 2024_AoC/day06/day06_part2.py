@@ -78,22 +78,21 @@ def step(pos, d, grid):
 
 
 def check_if_loops(pos, d, tmp_grid):
-  direction = d
   while True:
-    npos = next_position(pos, direction)
-    if same_path(npos, direction, tmp_grid):
+    npos = next_position(pos, d)
+    if same_path(npos, d, tmp_grid):
       return True
-    pos, direction = step(pos, direction, tmp_grid)
+    pos, d = step(pos, d, tmp_grid)
     if pos == None:
       return False
 
 
-def place_obstacle(npos, grid):
-  if out_of_bounds(npos, grid):
+def place_obstacle(pos, grid):
+  if out_of_bounds(pos, grid):
     return False
-  if grid[npos[1]][npos[0]] != '.':
+  if grid[pos[1]][pos[0]] != '.':
     return False
-  grid[npos[1]] = grid[npos[1]][:npos[0]] + 'O' + grid[npos[1]][npos[0] + 1:]
+  grid[pos[1]] = grid[pos[1]][:pos[0]] + 'O' + grid[pos[1]][pos[0] + 1:]
   return True
 
 

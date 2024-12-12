@@ -6,9 +6,8 @@ for line in f:
 
 dirs = [(0, -1), (-1, 0), (1, 0), (0, 1)]
 
-def corner_neighbours(neighbours):
-  diff = (neighbours[0][0] - neighbours[1][0], neighbours[0][1] - neighbours[1][1])
-  if abs(diff[0]) == 2 or abs(diff[1]) == 2:
+def corner(d):
+  if d[0][0] == -d[1][0] or d[0][1] == -d[1][1]:
     return False
   return True
 
@@ -27,29 +26,26 @@ def expand(pos, elem, used_pos, grid):
   used_pos.add(pos)
   size = 1
   borders = 0
-  other_neighbours = []
   correct_dirs = []
   for d in dirs:
     npos = (pos[0] + d[0], pos[1] + d[1])
     if not valid_pos(npos, grid):
-      other_neighbours.append(npos)
       continue
     (nsize, n_borders) = expand(npos, elem, used_pos, grid)
     if nsize == None:
       correct_dirs.append(d)
       continue
     elif nsize == 0:
-      other_neighbours.append(npos)
       continue
     else:
       correct_dirs.append(d)
       size += nsize
       borders += n_borders
-  if len(other_neighbours) == 4:
+  if len(correct_dirs) == 0:
     borders += 4
-  elif len(other_neighbours) == 3:
+  elif len(correct_dirs) == 1:
     borders += 2
-  elif len(other_neighbours) == 2 and corner_neighbours(other_neighbours):
+  elif len(correct_dirs) == 2 and corner(correct_dirs):
     borders += 1
   for i1, d1 in enumerate(correct_dirs):
     for d2 in correct_dirs[i1+1:]:

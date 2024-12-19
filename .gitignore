@@ -17,3 +17,8 @@ __pycache__/
 2019_AoC/
 2020_AoC/
 2021_AoC/
+2022_AoC/
+2023_AoC/
+
+# Input files
+input.txt
